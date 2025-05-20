@@ -2,11 +2,11 @@
 
 @section('content')
     <div class="col-md-12">
-        <h2 class="pb-2 display-5">Meus promotores</h2>
+        <h2 class="pb-2 display-5">Meus consultores</h2>
     </div>
     <div class="col-md-12" style="margin-bottom: 10px;">
         <div class="d-flex justify-content-end">
-            <a href="{{ route('promotor.listagem')}}" class="btn btn-info"><i class="fa fa-arrow-left"></i>&nbsp; Voltar</a>
+            <a href="{{ route('consultor.listagem')}}" class="btn btn-info"><i class="fa fa-arrow-left"></i>&nbsp; Voltar</a>
         </div>
     </div>
     <div class="col-lg-12">
@@ -21,10 +21,10 @@
         @endif
         <div class="card">
             <div class="card-header">
-                <strong class="card-title">Cadastro de novos promotores</strong>
+                <strong class="card-title">Cadastro de novos consultores</strong>
             </div>
             <div class="card-body card-block">
-                <form action="{{ route('promotor.inserir') }}" method="post" class="">
+                <form action="{{ route('consultor.inserir') }}" method="post" class="">
                     @csrf
                     <div class="row">
                         <div class="col-md-4">
@@ -130,6 +130,19 @@
                             <div class="form-group">
                                 <label for="conta" class="form-control-label">Conta</label>
                                 <input type="text" id="conta" name="conta" class="form-control" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="promotor_id" class="form-control-label">Promotor</label>
+                                <select name="promotor_id" id="promotor_id" class="form-control">
+                                    <option value="0">Selecione</option>
+                                    @foreach($promotores as $promotor)
+                                    <option value="{{$promotor->id}}">{{$promotor->nome}} {{$promotor->sobrenome}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>

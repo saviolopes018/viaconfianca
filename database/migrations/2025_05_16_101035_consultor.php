@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('promotor', function (Blueprint $table) {
+        Schema::create('consultor', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
             $table->string('sobrenome');
@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('banco');
             $table->string('agencia');
             $table->string('conta');
+            $table->foreignId('promotor_id')->index();
             $table->integer('status')->default(1);
             $table->timestamps();
         });
@@ -38,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('promotor');
+        Schema::dropIfExists('consultor');
     }
 };

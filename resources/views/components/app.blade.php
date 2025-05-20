@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Clinicas</title>
+    <title>Via Confiança</title>
     <meta name="description" content="Clinicas">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -41,9 +41,9 @@
                     aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="./"><img src="{{ asset('assets/img/logo.png') }}" alt="Logo"
-                        width="35px" height="30px"></a>
-                <a class="navbar-brand hidden" href="./"><img src="{{ asset('assets/img/logo.png') }}"
+                <a class="navbar-brand" href="{{ route('dashboard') }}"><img src="{{ asset('assets/img/logo-branca.png') }}" alt="Logo"
+                        width="40px" height="40px"></a>
+                <a class="navbar-brand hidden" href="{{ route('dashboard') }}"><img src="{{ asset('assets/img/logo-branca.png') }}"
                         alt="Logo"></a>
             </div>
 
@@ -52,8 +52,23 @@
                     <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
                         <a href="{{ route('dashboard') }}"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
                     </li>
-                    <li class="{{ request()->routeIs('banco.listagem') ? 'active' : '' }}">
-                        <a href="{{ route('banco.listagem') }}"> <i class="menu-icon fa fa-bank"></i>Banco Origem</a>
+                    <li class="{{ request()->routeIs('usuario.listagem') ? 'active' : '' }}">
+                        <a href="{{ route('usuario.listagem') }}"> <i class="menu-icon fa fa-users"></i>Usuários </a>
+                    </li>
+                    <li class="menu-item-has-children dropdown
+                    {{ request()->routeIs('banco.listagem') || request()->routeIs('banco.cadastro')
+                    || request()->routeIs('banco.tabela.listagem') || request()->routeIs('banco.tabela.cadastro')
+                    || request()->routeIs('banco.planilha.listagem') || request()->routeIs('banco.planilha.cadastro')
+                     ? 'active' : '' }}">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false"> <i class="menu-icon fa fa-bank"></i>Banco</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="fa fa-plus"></i><a href="{{ route('banco.listagem') }}">Listagem/Cadastro</a></li>
+                            <li><i class="fa fa-table"></i><a href="{{ route('banco.tabela.listagem') }}">Tabelas</a>
+                            </li>
+                            <li><i class="fa fa-file-excel-o"></i><a href="{{ route('banco.planilha.listagem') }}">Planilhas</a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="{{ request()->routeIs('consultor.listagem') ? 'active' : '' }}">
                         <a href="{{ route('consultor.listagem') }}"> <i class="menu-icon fa fa-users"></i>Meus consultores</a>
@@ -61,6 +76,13 @@
                     <li class="{{ request()->routeIs('promotor.listagem') || request()->routeIs('promotor.cadastro')  ? 'active' : '' }}">
                         <a href="{{ route('promotor.listagem') }}"> <i class="menu-icon fa fa-users"></i>Meus promotores</a>
                     </li>
+                    <li class="{{ request()->routeIs('produto.listagem') || request()->routeIs('produto.cadastro')  ? 'active' : '' }}">
+                        <a href="{{ route('produto.listagem') }}"> <i class="menu-icon fa fa-cubes"></i>Produtos</a>
+                    </li>
+                    {{-- <li class="{{ request()->routeIs('view.excel') || request()->routeIs('view.excel')  ? 'active' : '' }}">
+                        <a href="{{ route('view.excel') }}"> <i class="menu-icon fa fa-cubes"></i>Excel</a>
+                    </li> --}}
+
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
@@ -76,7 +98,28 @@
                 <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa-arrow-left"></i></a>
                     <div class="header-left">
+                        {{-- <div class="dropdown for-notification">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-bell"></i>
+                                <span class="count bg-danger">{{ count($notificacoes) }}</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="notification">
+                                @if(count($notificacoes) > 1)
+                                <p class="red">Você tem {{ count($notificacoes) }} notificações</p>
+                                @else
+                                <p class="red">Você tem {{ count($notificacoes) }} notificação</p>
+                                @endif
 
+                                @foreach($notificacoes as $notificacao)
+                                <a class="dropdown-item media" href="#">
+                                    <i class="fa fa-minus"></i>
+                                    <p>{{ $notificacao }}</p>
+                                </a>
+
+                                @endforeach
+
+                            </div>
+                        </div> --}}
                     </div>
                 </div>
 
@@ -85,18 +128,18 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
                             <img class="user-avatar rounded-circle" src="{{ asset('assets/img/avatar.png') }}"
-                                alt="User Avatar" title="Olá, ">
+                                alt="User Avatar">
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href=""><i class="fa fa-user"></i> Minha conta</a>
+                            <a class="nav-link" href="{{ route('minha.conta') }}"><i class="fa fa-user"></i> Minha conta</a>
 
                             {{-- <a class="nav-link" href="#"><i class="fa fa-bell"></i> Notificações <span
                                     class="count">13</span></a>
 
                             <a class="nav-link" href="#"><i class="fa fa-cog"></i> Configurações</a> --}}
 
-                            <a class="nav-link" href=""><i class="fa fa-power-off"></i>
+                            <a class="nav-link" href="{{ route('logout') }}"><i class="fa fa-power-off"></i>
                                 Sair</a>
                         </div>
                     </div>
@@ -138,6 +181,7 @@
 
 
     <script src="{{ asset('assets/js/Chart.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/chartjs-init.js') }}"></script>
     <script src="{{ asset('assets/js/dashboard.js') }}"></script>
     <script src="{{ asset('assets/js/widgets.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.vmap.min.js') }}"></script>
@@ -160,6 +204,10 @@
                 normalizeFunction: 'polynomial'
             });
         })(jQuery);
+
+
+
+
     </script>
 
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
@@ -177,6 +225,23 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        document.getElementById('valorMinimo').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é número
+            value = (value/100).toFixed(2) + '';
+            value = value.replace(".", ",");
+            value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            e.target.value = value;
+        });
+        document.getElementById('valorMaximo').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é número
+            value = (value/100).toFixed(2) + '';
+            value = value.replace(".", ",");
+            value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            e.target.value = value;
+        });
+    </script>
 
 </body>
 

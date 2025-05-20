@@ -32,16 +32,18 @@
                             <thead>
                                 <tr>
                                     <th>Nome</th>
+                                    <th>Telefone</th>
                                     <th>Email</th>
-                                    <th>Ativo</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($promotores as $promotor)
                                     <tr>
-                                        <td>{{ $promotor->nome }}</td>
+                                        <td>{{ $promotor->nome }} {{ $promotor->sobrenome }}</td>
+                                        <td>{{ \App\Models\Utils::formatarTelefone($promotor->telefone) }}</td>
                                         <td>{{ $promotor->email }}</td>
-                                        <td>{{ $promotor->status }}</td>
+                                        <td><span class="badge badge-success">{{ \App\Models\Utils::getLabelAtivoPorCodigo($promotor->status) }}</span></td>
                                     </tr>
                                 @endforeach
                             </tbody>

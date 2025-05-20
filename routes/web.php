@@ -6,20 +6,67 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BancoController;
 use App\Http\Controllers\ConsultorController;
 use App\Http\Controllers\PromotorController;
+use App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\UsuarioController;
+
+use App\Http\Controllers\UploadExcelController;
+
+use App\Http\Controllers\TabelaController;
+use App\Http\Controllers\PlanilhaController;
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+// Rotas para recuperação de senha (opcional)
+Route::get('/password/reset', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/password/email', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/password/reset/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password/reset', [AuthController::class, 'resetPassword'])->name('password.update');
 
-//Banco
-Route::get('/banco/listagem', [BancoController::class, 'listagem'])->name('banco.listagem');
-Route::get('/banco/cadastro', [BancoController::class, 'cadastro'])->name('banco.cadastro');
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register')->middleware(OnlyLocal::class);
+Route::post('/register', [AuthController::class, 'register'])->middleware(OnlyLocal::class);
 
-// Consultor
-Route::get('/consultor/listagem', [ConsultorController::class, 'listagem'])->name('consultor.listagem');
-Route::get('/consultor/cadastro', [ConsultorController::class, 'cadastro'])->name('consultor.cadastro');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
-// Promotor
-Route::get('/promotor/listagem', [PromotorController::class, 'listagem'])->name('promotor.listagem');
-Route::get('/promotor/cadastro', [PromotorController::class, 'cadastro'])->name('promotor.cadastro');
+    //Banco
+    Route::get('/banco/listagem', [BancoController::class, 'listagem'])->name('banco.listagem');
+    Route::get('/banco/cadastro', [BancoController::class, 'cadastro'])->name('banco.cadastro');
+    Route::post('/banco/inserir', [BancoController::class, 'inserirBanco'])->name('banco.inserir');
+
+    // Banco - Tabela
+    Route::get('/banco/tabela/listagem', [TabelaController::class, 'listagem'])->name('banco.tabela.listagem');
+    Route::get('/banco/tabela/cadastro', [TabelaController::class, 'cadastro'])->name('banco.tabela.cadastro');
+    Route::post('/banco/tabela/inserir', [TabelaController::class, 'inserirTabela'])->name('banco.tabela.inserir');
+
+    // Banco - Planilha
+    Route::get('/banco/planilha/listagem', [PlanilhaController::class, 'listagem'])->name('banco.planilha.listagem');
+    Route::get('/banco/planilha/cadastro', [PlanilhaController::class, 'cadastro'])->name('banco.planilha.cadastro');
+    Route::post('/banco/planilha/inserir', [PlanilhaController::class, 'inserirPlanilha'])->name('banco.planilha.inserir');
+
+    // Consultor
+    Route::get('/consultor/listagem', [ConsultorController::class, 'listagem'])->name('consultor.listagem');
+    Route::get('/consultor/cadastro', [ConsultorController::class, 'cadastro'])->name('consultor.cadastro');
+    Route::post('/consultor/inserir', [ConsultorController::class, 'inserirConsultor'])->name('consultor.inserir');
+    Route::get('/consultor/gerar-usuario/{id}', [ConsultorController::class, 'gerarUsuario'])->name('consultor.gerar.usuario');
+
+    // Promotor
+    Route::get('/promotor/listagem', [PromotorController::class, 'listagem'])->name('promotor.listagem');
+    Route::get('/promotor/cadastro', [PromotorController::class, 'cadastro'])->name('promotor.cadastro');
+    Route::post('/promotor/inserir', [PromotorController::class, 'inserirPromotor'])->name('promotor.inserir');
+
+    //Produto
+    Route::get('/produto/listagem', [ProdutoController::class, 'listagem'])->name('produto.listagem');
+    Route::get('/produto/cadastro', [ProdutoController::class, 'cadastro'])->name('produto.cadastro');
+    Route::post('/produto/inserir', [ProdutoController::class, 'inserirProduto'])->name('produto.inserir');
+
+    //Usuario
+    Route::get('/usuario/listagem', [UsuarioController::class, 'listagem'])->name('usuario.listagem');
+    Route::get('/usuario/reset/{id}', [UsuarioController::class, 'resetPassword'])->name('reset');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/usuario/minha-conta', [UsuarioController::class, 'minhaConta'])->name('minha.conta');
+    Route::put('/usuario/minha-conta/atualizar', [UsuarioController::class, 'atualizarConta'])->name('minha.conta.atualizar');
+});
+
+Route::get('/view', [UploadExcelController::class, 'form'])->name('view.excel');
+Route::post('/excel/upload', [UploadExcelController::class, 'upload'])->name('upload.excel');

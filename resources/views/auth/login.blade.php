@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Profive</title>
+    <title>Via Confiança</title>
     <meta name="description" content="Profive">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -19,13 +19,13 @@
 
 </head>
 
-<body class="bg-dark">
+<body class="bg-gray">
     <div class="sufee-login d-flex align-content-center flex-wrap">
         <div class="container">
             <div class="login-content">
                 <div class="login-logo">
                     <a href="index.html">
-                        <img class="align-content" src="{{ asset('assets/img/logo2.png') }}" alt="" width="130px" height="90px">
+                        <img class="align-content" src="{{ asset('assets/img/logo-completa.png') }}" alt="">
                     </a>
                 </div>
                 @if (session('error'))
