@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Utils extends Model
 {
@@ -20,5 +21,11 @@ class Utils extends Model
             // Formato fixo com DDD: (99) 9999-9999
             return preg_replace('/(\d{2})(\d{4})(\d{4})/', '($1) $2-$3', $telefone);
         }
+    }
+
+    public static function formataTimestamp($timestamp) {
+        return Carbon::parse($timestamp, 'UTC')
+                ->setTimezone('America/Sao_Paulo')
+                ->format('d/m/Y H:i');
     }
 }

@@ -12,6 +12,10 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+    public function hash() {
+       $senha = Hash::make(123456);
+        dd($senha);
+    }
     public function showLoginForm()
     {
         return view('auth.login');

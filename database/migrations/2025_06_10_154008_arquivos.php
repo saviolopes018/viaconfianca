@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('planilha', function (Blueprint $table) {
+        Schema::create('arquivos', function (Blueprint $table) {
             $table->id();
-            $table->text('colunaPlanilha');
-            $table->foreignId('banco_id')->index();
-            $table->integer('status')->default(1);
+            $table->string('nome');
+            $table->unsignedBigInteger('banco_id')->nullable();
+            $table->foreignId('usuario_id');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('planilha');
+        Schema::dropIfExists('arquivos');
     }
 };

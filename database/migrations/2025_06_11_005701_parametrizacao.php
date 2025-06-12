@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tabela', function (Blueprint $table) {
+        Schema::create('parametrizacao', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->string('nomeTabelaBancoParceiro');
-            $table->foreignId('banco_id')->index();
-            $table->string('valorMinimo');
-            $table->string('valorMaximo');
-            $table->integer('status')->default(1);
+            $table->string('descricao');
+            $table->integer('valor');
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tabela');
+        Schema::dropIfExists('parametrizacao');
     }
 };

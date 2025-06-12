@@ -6,7 +6,7 @@
     </div>
     <div class="col-md-12" style="margin-bottom: 10px;">
         <div class="d-flex justify-content-end">
-            <a href="{{ route('banco.planilha.listagem')}}" class="btn btn-info"><i class="fa fa-arrow-left"></i>&nbsp; Voltar</a>
+            <a href="{{ route('banco.importar.listagem')}}" class="btn btn-info"><i class="fa fa-arrow-left"></i>&nbsp; Voltar</a>
         </div>
     </div>
     <div class="col-lg-12">
@@ -24,14 +24,13 @@
                 <strong class="card-title">Cadastro de novas planilhas</strong>
             </div>
             <div class="card-body card-block">
-                <form action="{{ route('banco.planilha.inserir') }}" method="post" class="">
+                <form action="{{ route('banco.importar.upload') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="colunaPlanilha" class="form-control-label">Colunas da Planilha</label>
-                                <span class="badge badge-info">Preencha da seguinte forma: coluna1;coluna2 (O nome deve ser extamente igual a tabela)</span>
-                                <textarea class="form-control" id="colunaPlanilha" name="colunaPlanilha" autocomplete="off" rows="10"></textarea>
+                                <label for="colunaPlanilha" class="form-control-label">Colunas da Planilha</label><br>
+                                <input type="file" name="file">
                             </div>
                         </div>
                         <div class="col-md-4">

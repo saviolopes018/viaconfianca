@@ -52,23 +52,25 @@
                     <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
                         <a href="{{ route('dashboard') }}"> <i class="menu-icon fa fa-dashboard"></i>Dashboard </a>
                     </li>
-                    <li class="{{ request()->routeIs('usuario.listagem') ? 'active' : '' }}">
+                    {{-- <li class="{{ request()->routeIs('usuario.listagem') ? 'active' : '' }}">
                         <a href="{{ route('usuario.listagem') }}"> <i class="menu-icon fa fa-users"></i>Usuários </a>
-                    </li>
+                    </li> --}}
                     <li class="menu-item-has-children dropdown
-                    {{ request()->routeIs('banco.listagem') || request()->routeIs('banco.cadastro')
-                    || request()->routeIs('banco.tabela.listagem') || request()->routeIs('banco.tabela.cadastro')
-                    || request()->routeIs('banco.planilha.listagem') || request()->routeIs('banco.planilha.cadastro')
-                     ? 'active' : '' }}">
+                    {{ request()->routeIs('usuario.listagem') ? 'active' : '' }}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false"> <i class="menu-icon fa fa-bank"></i>Banco</a>
+                            aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Usuários</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-plus"></i><a href="{{ route('banco.listagem') }}">Listagem/Cadastro</a></li>
-                            <li><i class="fa fa-table"></i><a href="{{ route('banco.tabela.listagem') }}">Tabelas</a>
-                            </li>
-                            <li><i class="fa fa-file-excel-o"></i><a href="{{ route('banco.planilha.listagem') }}">Planilhas</a>
-                            </li>
+                            <li><i class="fa fa-plus"></i><a href="{{ route('usuario.listagem') }}">Listagem</a></li>
                         </ul>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="fa fa-plus"></i><a href="{{ route('usuario.listagem') }}">Listagem</a></li>
+                        </ul>
+                    </li>
+                    <li class="{{ request()->routeIs('banco.listagem') ? 'active' : '' }}">
+                        <a href="{{ route('banco.listagem') }}"> <i class="menu-icon fa fa-bank"></i>Banco</a>
+                    </li>
+                    <li class="{{ request()->routeIs('banco.importar.listagem') ? 'active' : '' }}">
+                        <a href="{{ route('banco.importar.listagem') }}"> <i class="menu-icon fa fa-file-excel-o"></i>Importar</a>
                     </li>
                     <li class="{{ request()->routeIs('consultor.listagem') ? 'active' : '' }}">
                         <a href="{{ route('consultor.listagem') }}"> <i class="menu-icon fa fa-users"></i>Meus consultores</a>

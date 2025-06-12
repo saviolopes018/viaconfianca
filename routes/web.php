@@ -23,8 +23,10 @@ Route::post('/password/email', [AuthController::class, 'sendResetLinkEmail'])->n
 Route::get('/password/reset/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
 Route::post('/password/reset', [AuthController::class, 'resetPassword'])->name('password.update');
 
-Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register')->middleware(OnlyLocal::class);
-Route::post('/register', [AuthController::class, 'register'])->middleware(OnlyLocal::class);
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::get('/hash', [AuthController::class, 'hash'])->name('hash');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
@@ -43,6 +45,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/banco/planilha/listagem', [PlanilhaController::class, 'listagem'])->name('banco.planilha.listagem');
     Route::get('/banco/planilha/cadastro', [PlanilhaController::class, 'cadastro'])->name('banco.planilha.cadastro');
     Route::post('/banco/planilha/inserir', [PlanilhaController::class, 'inserirPlanilha'])->name('banco.planilha.inserir');
+
+    // Banco - Importar
+    Route::get('/banco/importar/listagem', [PlanilhaController::class, 'listagemDados'])->name('banco.importar.listagem');
+    Route::get('/banco/importar/cadastro', [PlanilhaController::class, 'uploadDados'])->name('banco.importar.cadastro');
+    Route::post('/banco/importar/upload', [PlanilhaController::class, 'upload'])->name('banco.importar.upload');
 
     // Consultor
     Route::get('/consultor/listagem', [ConsultorController::class, 'listagem'])->name('consultor.listagem');
@@ -66,6 +73,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/usuario/minha-conta', [UsuarioController::class, 'minhaConta'])->name('minha.conta');
     Route::put('/usuario/minha-conta/atualizar', [UsuarioController::class, 'atualizarConta'])->name('minha.conta.atualizar');
+
+    Route::get('/perfil/listagem', [UsuarioController::class, 'listagem'])->name('usuario.listagem');
 });
 
 Route::get('/view', [UploadExcelController::class, 'form'])->name('view.excel');
