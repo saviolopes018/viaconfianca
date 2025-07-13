@@ -8,11 +8,10 @@ use App\Http\Controllers\ConsultorController;
 use App\Http\Controllers\PromotorController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\UsuarioController;
-
 use App\Http\Controllers\UploadExcelController;
-
 use App\Http\Controllers\TabelaController;
 use App\Http\Controllers\PlanilhaController;
+use App\Http\Controllers\ParametrizacaoController;
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -35,11 +34,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/banco/listagem', [BancoController::class, 'listagem'])->name('banco.listagem');
     Route::get('/banco/cadastro', [BancoController::class, 'cadastro'])->name('banco.cadastro');
     Route::post('/banco/inserir', [BancoController::class, 'inserirBanco'])->name('banco.inserir');
-
-    // Banco - Tabela
-    Route::get('/banco/tabela/listagem', [TabelaController::class, 'listagem'])->name('banco.tabela.listagem');
-    Route::get('/banco/tabela/cadastro', [TabelaController::class, 'cadastro'])->name('banco.tabela.cadastro');
-    Route::post('/banco/tabela/inserir', [TabelaController::class, 'inserirTabela'])->name('banco.tabela.inserir');
 
     // Banco - Planilha
     Route::get('/banco/planilha/listagem', [PlanilhaController::class, 'listagem'])->name('banco.planilha.listagem');
@@ -69,12 +63,24 @@ Route::middleware(['auth'])->group(function () {
 
     //Usuario
     Route::get('/usuario/listagem', [UsuarioController::class, 'listagem'])->name('usuario.listagem');
+    Route::get('/usuario/cadastro', [UsuarioController::class, 'cadastro'])->name('usuario.cadastro');
+    Route::post('/usuario/inserir', [UsuarioController::class, 'inserirUsuario'])->name('usuario.inserir');
     Route::get('/usuario/reset/{id}', [UsuarioController::class, 'resetPassword'])->name('reset');
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/usuario/minha-conta', [UsuarioController::class, 'minhaConta'])->name('minha.conta');
     Route::put('/usuario/minha-conta/atualizar', [UsuarioController::class, 'atualizarConta'])->name('minha.conta.atualizar');
+    Route::get('/usuario/inativar/{id}', [UsuarioController::class, 'inativarUsuario'])->name('inativar');
+    Route::get('/usuario/ativar/{id}', [UsuarioController::class, 'ativarUsuario'])->name('ativar');
 
-    Route::get('/perfil/listagem', [UsuarioController::class, 'listagem'])->name('usuario.listagem');
+    //Tabela
+    Route::get('/tabela/listagem', [TabelaController::class, 'listagem'])->name('tabela.listagem');
+    Route::get('/tabela/cadastro', [TabelaController::class, 'cadastro'])->name('tabela.cadastro');
+    Route::post('/tabela/inserir', [TabelaController::class, 'inserirTabela'])->name('tabela.inserir');
+
+    //Parametrização
+    Route::get('/parametrizacao', [ParametrizacaoController::class, 'parametrizacao'])->name('parametrizacao');
+    Route::post('/parametrizacao/inserir', [ParametrizacaoController::class, 'inserir'])->name('parametrizacao.inserir');
+
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::get('/view', [UploadExcelController::class, 'form'])->name('view.excel');

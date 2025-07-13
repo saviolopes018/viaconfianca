@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Tabela;
+use Illuminate\Support\Str;
 
 class Planilha extends Model
 {
@@ -27,55 +29,98 @@ class Planilha extends Model
         return DB::table('planilha')
             ->join('banco', 'planilha.banco_id','=','banco.id')
             ->select('planilha.*', 'banco.nomeBanco as bancoDescricao', 'banco.id as bancoId')
+            ->where('planilha.status', 1)
             ->get();
     }
 
     public function obterSomaBaseCalculoComissao(){
-        return DB::table('dados_importados as d')
-            ->join('dados_importados_valores as v', 'v.dado_id', '=', 'd.id')
-            ->join('colunas_layout as c', 'c.id', '=', 'v.coluna_id')
-            ->whereIn('c.nome_coluna', [
-                'Valor Desembolso',
-                'Base de cálculo da comissão'
-            ])
-            ->selectRaw("
-                SUM(
-                    CASE
-                        WHEN
-                            REPLACE(
-                                REPLACE(
-                                    REPLACE(
-                                        REPLACE(
-                                            REPLACE(TRIM(v.valor), 'R$', ''),
-                                            CHAR(160), ''
-                                        ),
-                                        ' ', ''
-                                    ),
-                                    '.', ''
-                                ),
-                                ',', '.'
-                            ) REGEXP '^[0-9]+(\\\\.[0-9]{1,2})?$'
-                        THEN
-                            CAST(
-                                REPLACE(
-                                    REPLACE(
-                                        REPLACE(
-                                            REPLACE(
-                                                REPLACE(TRIM(v.valor), 'R$', ''),
-                                                CHAR(160), ''
-                                            ),
-                                            ' ', ''
-                                        ),
-                                        '.', ''
-                                    ),
-                                    ',', '.'
-                                ) AS DECIMAL(15,2)
-                            )
-                        ELSE 0
-                    END
-                ) AS soma_total
-            ")
-            ->value('soma_total') ?? 0.0;
+        $valorTotalComissao = 0;
+
+        $results = DB::select('
+            SELECT
+            v.valor           AS base_comissao,
+            sub.tabela        AS tabela
+            FROM dados_importados       d
+            JOIN dados_importados_valores v  ON v.dado_id   = d.id
+            JOIN colunas_layout         c  ON c.id         = v.coluna_id
+            LEFT JOIN (
+            SELECT
+                v2.dado_id,
+                v2.valor       AS tabela
+            FROM dados_importados_valores v2
+            JOIN colunas_layout         c2 ON c2.id       = v2.coluna_id
+            WHERE c2.nome_coluna = "Tabela"
+            ) sub ON sub.dado_id = d.id
+            WHERE c.nome_coluna IN ("Valor Desembolso","Base de cálculo da comissão");
+        ');
+
+        $tabelas = Tabela::getTabelas();
+
+        foreach($results as $result) {
+            foreach($tabelas as $tabela){
+                if($tabela->descricao == $result->tabela) {
+                    $baseComissao = trim(Str::replace('R$','', $result->base_comissao));
+
+                    $valorCalculo = Str::replace(',','.', $baseComissao);
+
+                    $valorBase    = toFloat($valorCalculo);
+                    $percentual   = toFloat($tabela->comissao);
+
+                    $valorComissao = $valorBase * $percentual;
+
+                    $valorTotalComissao = $valorTotalComissao + $valorComissao;
+                }
+            }
+        }
+
+        return $valorTotalComissao;
+
+
+        // return DB::table('dados_importados as d')
+        //     ->join('dados_importados_valores as v', 'v.dado_id', '=', 'd.id')
+        //     ->join('colunas_layout as c', 'c.id', '=', 'v.coluna_id')
+        //     ->whereIn('c.nome_coluna', [
+        //         'Valor Desembolso',
+        //         'Base de cálculo da comissão'
+        //     ])
+        //     ->selectRaw("
+        //         SUM(
+        //             CASE
+        //                 WHEN
+        //                     REPLACE(
+        //                         REPLACE(
+        //                             REPLACE(
+        //                                 REPLACE(
+        //                                     REPLACE(TRIM(v.valor), 'R$', ''),
+        //                                     CHAR(160), ''
+        //                                 ),
+        //                                 ' ', ''
+        //                             ),
+        //                             '.', ''
+        //                         ),
+        //                         ',', '.'
+        //                     ) REGEXP '^[0-9]+(\\\\.[0-9]{1,2})?$'
+        //                 THEN
+        //                     CAST(
+        //                         REPLACE(
+        //                             REPLACE(
+        //                                 REPLACE(
+        //                                     REPLACE(
+        //                                         REPLACE(TRIM(v.valor), 'R$', ''),
+        //                                         CHAR(160), ''
+        //                                     ),
+        //                                     ' ', ''
+        //                                 ),
+        //                                 '.', ''
+        //                             ),
+        //                             ',', '.'
+        //                         ) AS DECIMAL(15,2)
+        //                     )
+        //                 ELSE 0
+        //             END
+        //         ) AS soma_total
+        //     ")
+        //     ->value('soma_total') ?? 0.0;
     }
 
     public function obterQuantidadePropostasPaga(){

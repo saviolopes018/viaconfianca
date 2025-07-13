@@ -28,6 +28,9 @@
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 </head>
 
 <body>
@@ -62,12 +65,12 @@
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="fa fa-plus"></i><a href="{{ route('usuario.listagem') }}">Listagem</a></li>
                         </ul>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-plus"></i><a href="{{ route('usuario.listagem') }}">Listagem</a></li>
-                        </ul>
                     </li>
                     <li class="{{ request()->routeIs('banco.listagem') ? 'active' : '' }}">
                         <a href="{{ route('banco.listagem') }}"> <i class="menu-icon fa fa-bank"></i>Banco</a>
+                    </li>
+                    <li class="{{ request()->routeIs('tabela.listagem') ? 'active' : '' }}">
+                        <a href="{{ route('tabela.listagem') }}"> <i class="menu-icon fa fa-table"></i>Tabelas</a>
                     </li>
                     <li class="{{ request()->routeIs('banco.importar.listagem') ? 'active' : '' }}">
                         <a href="{{ route('banco.importar.listagem') }}"> <i class="menu-icon fa fa-file-excel-o"></i>Importar</a>
@@ -80,6 +83,9 @@
                     </li>
                     <li class="{{ request()->routeIs('produto.listagem') || request()->routeIs('produto.cadastro')  ? 'active' : '' }}">
                         <a href="{{ route('produto.listagem') }}"> <i class="menu-icon fa fa-cubes"></i>Produtos</a>
+                    </li>
+                    <li class="{{ request()->routeIs('parametrizacao') || request()->routeIs('produto.cadastro')  ? 'active' : '' }}">
+                        <a href="{{ route('parametrizacao') }}"> <i class="menu-icon fa fa-gear"></i>Parametrização</a>
                     </li>
                     {{-- <li class="{{ request()->routeIs('view.excel') || request()->routeIs('view.excel')  ? 'active' : '' }}">
                         <a href="{{ route('view.excel') }}"> <i class="menu-icon fa fa-cubes"></i>Excel</a>
@@ -229,20 +235,39 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
-        document.getElementById('valorMinimo').addEventListener('input', function(e) {
+
+    </script>
+
+    <script>
+        document.getElementById('metaDia').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é número
             value = (value/100).toFixed(2) + '';
             value = value.replace(".", ",");
             value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
             e.target.value = value;
         });
-        document.getElementById('valorMaximo').addEventListener('input', function(e) {
+
+        document.getElementById('mediaProducaoDiaria').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é número
             value = (value/100).toFixed(2) + '';
             value = value.replace(".", ",");
             value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
             e.target.value = value;
         });
+
+        document.getElementById('meta').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é número
+            value = (value/100).toFixed(2) + '';
+            value = value.replace(".", ",");
+            value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            e.target.value = value;
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+});
     </script>
 
 </body>

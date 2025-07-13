@@ -14,11 +14,9 @@ class Tabela extends Model
     protected $table = 'tabela';
 
     protected $fillable = [
-        'nome',
-        'nomeTabelaBancoParceiro',
+        'descricao',
         'banco_id',
-        'valorMinimo',
-        'valorMaximo',
+        'comissao',
         'status',
     ];
 
@@ -26,6 +24,7 @@ class Tabela extends Model
         return DB::table('tabela')
             ->join('banco', 'tabela.banco_id','=','banco.id')
             ->select('tabela.*', 'banco.nomeBanco as bancoDescricao', 'banco.id as bancoId')
+            ->where('tabela.status', 1)
             ->get();
     }
 }

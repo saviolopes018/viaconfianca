@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\Planilha;
+use App\Models\Parametrizacao;
 
 class DashboardController extends Controller
 {
@@ -14,7 +15,12 @@ class DashboardController extends Controller
         $promotores = DB::table('promotor')->where('status', 1)->get();
         $valorComissoesPagas = $planilha->obterSomaBaseCalculoComissao();
         $quantidadePropostasPagas = $planilha->obterQuantidadePropostasPaga();
-        return view('dashboard', ['valorComissoesPagas' => $valorComissoesPagas, 'quantidadePropostasPagas' => $quantidadePropostasPagas]);
+        $parametrizacao = Parametrizacao::find(1);
+        return view('dashboard', [
+            'valorComissoesPagas' => $valorComissoesPagas,
+            'quantidadePropostasPagas' => $quantidadePropostasPagas,
+            'parametrizacao' => $parametrizacao
+        ]);
     }
 
     private function notificacao($promotores) {

@@ -14,7 +14,8 @@ class Parametrizacao extends Model
     protected $table = 'parametrizacao';
 
     protected $fillable = [
-        'descricao',
-        'status',
+        'metaDia',
+        'mediaProducaoDiaria',
+        'meta',
     ];
 }

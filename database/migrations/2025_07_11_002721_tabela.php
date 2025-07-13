@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('parametrizacao', function (Blueprint $table) {
+        Schema::create('tabela', function (Blueprint $table) {
             $table->id();
-            $table->string('metaDia');
-            $table->string('mediaProducaoDiaria');
-            $table->string('meta');
+            $table->string('descricao');
+            $table->foreignId('banco_id');
+            $table->string('comissao');
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('parametrizacao');
+        Schema::dropIfExists('tabela');
     }
 };

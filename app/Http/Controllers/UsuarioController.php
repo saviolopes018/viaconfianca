@@ -5,13 +5,33 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth, Hash;
+use App\Models\Perfil;
+use Illuminate\Support\Str;
 
 class UsuarioController extends Controller
 {
     public function listagem() {
         $usuarios = User::get();
         return view('usuarios.listagem', ['usuarios' => $usuarios]);
+    }
+
+    public function cadastro() {
+        $perfis = Perfil::get();
+        return view('usuarios.cadastro', ['perfis' => $perfis]);
+    }
+
+    public function inserirUsuario(Request $request) {
+        $user = User::create([
+            'name' => $request->nome,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'status' => 1,
+            'perfis' => $request->perfis,
+            'remember_token' => Str::random(60),
+        ]);
+
+        return redirect()->route('usuario.listagem')->with('message-success-usuario', 'Usuário cadastrado com sucesso!');
     }
 
     public function resetPassword(Request $request) {
@@ -55,5 +75,33 @@ class UsuarioController extends Controller
         }
 
         return redirect()->back()->with('message-success-update', 'Os dados foram atualizados com sucesso!');
+    }
+
+    public function inativarUsuario(Request $request) {
+        $user = User::find($request->id);
+
+        if(!$user){
+            return back()->with('error-resetar-senha', 'Ocorreu um erro ao inativar usuário!');
+        }
+
+        $user->update([
+            'status' => 0
+        ]);
+
+        return redirect()->back()->with('message-success-usuario', 'Usuário inativado com sucesso!');
+    }
+
+    public function ativarUsuario(Request $request) {
+        $user = User::find($request->id);
+
+        if(!$user){
+            return back()->with('error-resetar-senha', 'Ocorreu um erro ao inativar usuário!');
+        }
+
+        $user->update([
+            'status' => 1
+        ]);
+
+        return redirect()->back()->with('message-success-usuario', 'Usuário inativado com sucesso!');
     }
 }

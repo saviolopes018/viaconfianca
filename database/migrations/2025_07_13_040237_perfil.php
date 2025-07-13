@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('parametrizacao', function (Blueprint $table) {
+        Schema::create('perfil', function (Blueprint $table) {
             $table->id();
-            $table->string('metaDia');
-            $table->string('mediaProducaoDiaria');
-            $table->string('meta');
+            $table->string('descricao');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('parametrizacao');
+        Schema::dropIfExists('perfil');
     }
 };

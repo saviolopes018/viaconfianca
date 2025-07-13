@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="h4 mb-0">
-                    <span>R$ 28.000,00</span>
+                    <span>R$ {{ $parametrizacao->metaDia }}</span>
                 </div>
 
                 <small class="text-muted text-uppercase font-weight-bold">Meta do dia</small>
@@ -64,7 +64,7 @@
                     <i class="fa fa-money"></i>
                 </div>
                 <div class="h4 mb-0">
-                    <span>R$ 28.000,00</span>
+                    <span>R$ {{ $parametrizacao->mediaProducaoDiaria }}</span>
                 </div>
                 <small class="text-muted text-uppercase font-weight-bold">Média de produção diária</small>
                 <div class="progress progress-xs mt-3 mb-0 bg-flat-color-2" style="width: 40%; height: 5px;"></div>
@@ -88,7 +88,7 @@
                     <i class="fa fa-money"></i>
                 </div>
                 <div class="h4 mb-0">
-                    <span>R$ 28.000,00</span>
+                    <span>R$ {{ $parametrizacao->meta }}</span>
                 </div>
                 <small class="text-muted text-uppercase font-weight-bold">Meta</small>
                 <div class="progress progress-xs mt-3 mb-0 bg-flat-color-4" style="width: 40%; height: 5px;"></div>
