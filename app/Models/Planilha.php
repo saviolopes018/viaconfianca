@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Tabela;
+use App\Models\Banco;
 use Illuminate\Support\Str;
+use App\Models\CorteComissao;
 
 class Planilha extends Model
 {
@@ -33,14 +35,16 @@ class Planilha extends Model
             ->get();
     }
 
-    public function obterSomaBaseCalculoComissao(){
+    public function obterSomaBaseCalculoComissao(CorteComissao $corteComissao){
         $valorTotalComissao = 0;
 
         $results = DB::select('
             SELECT
+            arq.banco_id      AS banco_id,
             v.valor           AS base_comissao,
             sub.tabela        AS tabela
             FROM dados_importados       d
+            JOIN arquivos                 arq ON arq.id = d.arquivo_id
             JOIN dados_importados_valores v  ON v.dado_id   = d.id
             JOIN colunas_layout         c  ON c.id         = v.coluna_id
             LEFT JOIN (
@@ -53,22 +57,35 @@ class Planilha extends Model
             ) sub ON sub.dado_id = d.id
             WHERE c.nome_coluna IN ("Valor Desembolso","Base de cálculo da comissão");
         ');
+        // dd($results);
 
         $tabelas = Tabela::getTabelas();
+        $bancos = Banco::getBancos();
 
         foreach($results as $result) {
             foreach($tabelas as $tabela){
+                $cortesComissoes = $corteComissao->getTabelas($tabela->id);
                 if($tabela->descricao == $result->tabela) {
-                    $baseComissao = trim(Str::replace('R$','', $result->base_comissao));
+                    foreach($cortesComissoes as $corte){
+                        $baseComissao = trim(Str::replace('R$','', $result->base_comissao));
 
-                    $valorCalculo = Str::replace(',','.', $baseComissao);
+                        $valorCalculo = Str::replace(',','.', $baseComissao);
 
-                    $valorBase    = toFloat($valorCalculo);
-                    $percentual   = toFloat($tabela->comissao);
+                        $valorBase    = toFloat($valorCalculo);
 
-                    $valorComissao = $valorBase * $percentual;
+                        $percentual;
+                        $valorTotalComissao;
 
-                    $valorTotalComissao = $valorTotalComissao + $valorComissao;
+                        if($corte->tabela_id == $tabela->id) {
+                            // dd($corte, $valorBase);
+                            if($valorBase >= $corte->valorMinimo && $valorBase <= $corte->valorMaximo){
+                                $percentual = toFloat($corte->comissao);
+                                $valorComissao = $valorBase * $percentual;
+                                $valorTotalComissao = $valorTotalComissao + $valorComissao;
+
+                            }
+                        }
+                    }
                 }
             }
         }

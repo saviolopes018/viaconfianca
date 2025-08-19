@@ -8,12 +8,13 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\Planilha;
 use App\Models\Parametrizacao;
+use App\Models\CorteComissao;
 
 class DashboardController extends Controller
 {
-    public function dashboard(Planilha $planilha) {
+    public function dashboard(Planilha $planilha, CorteComissao $corteComissao) {
         $promotores = DB::table('promotor')->where('status', 1)->get();
-        $valorComissoesPagas = $planilha->obterSomaBaseCalculoComissao();
+        $valorComissoesPagas = $planilha->obterSomaBaseCalculoComissao($corteComissao);
         $quantidadePropostasPagas = $planilha->obterQuantidadePropostasPaga();
         $parametrizacao = Parametrizacao::find(1);
         return view('dashboard', [

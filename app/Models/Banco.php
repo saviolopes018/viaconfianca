@@ -17,4 +17,11 @@ class Banco extends Model
         'nomeBanco',
         'status',
     ];
+
+    public static function getBancos() {
+        return DB::table('banco')
+            ->select('banco.*')
+            ->where('banco.status', 1)
+            ->get();
+    }
 }

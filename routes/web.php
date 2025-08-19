@@ -75,6 +75,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tabela/listagem', [TabelaController::class, 'listagem'])->name('tabela.listagem');
     Route::get('/tabela/cadastro', [TabelaController::class, 'cadastro'])->name('tabela.cadastro');
     Route::post('/tabela/inserir', [TabelaController::class, 'inserirTabela'])->name('tabela.inserir');
+    Route::get('/tabela/corte-comissao/{idTabela}', [TabelaController::class, 'getMargemCorte'])->name('tabela.margem.corte');
 
     //Parametrização
     Route::get('/parametrizacao', [ParametrizacaoController::class, 'parametrizacao'])->name('parametrizacao');

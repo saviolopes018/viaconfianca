@@ -16,7 +16,6 @@ class Tabela extends Model
     protected $fillable = [
         'descricao',
         'banco_id',
-        'comissao',
         'status',
     ];
 

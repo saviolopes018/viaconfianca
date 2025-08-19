@@ -29,7 +29,9 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    @stack('styles')
 
 </head>
 
@@ -44,10 +46,11 @@
                     aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="{{ route('dashboard') }}"><img src="{{ asset('assets/img/logo-branca.png') }}" alt="Logo"
-                        width="40px" height="40px"></a>
-                <a class="navbar-brand hidden" href="{{ route('dashboard') }}"><img src="{{ asset('assets/img/logo-branca.png') }}"
-                        alt="Logo"></a>
+                <a class="navbar-brand" href="{{ route('dashboard') }}"><img
+                        src="{{ asset('assets/img/logo-branca.png') }}" alt="Logo" width="40px"
+                        height="40px"></a>
+                <a class="navbar-brand hidden" href="{{ route('dashboard') }}"><img
+                        src="{{ asset('assets/img/logo-branca.png') }}" alt="Logo"></a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
@@ -58,7 +61,8 @@
                     {{-- <li class="{{ request()->routeIs('usuario.listagem') ? 'active' : '' }}">
                         <a href="{{ route('usuario.listagem') }}"> <i class="menu-icon fa fa-users"></i>Usuários </a>
                     </li> --}}
-                    <li class="menu-item-has-children dropdown
+                    <li
+                        class="menu-item-has-children dropdown
                     {{ request()->routeIs('usuario.listagem') ? 'active' : '' }}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Usuários</a>
@@ -73,18 +77,24 @@
                         <a href="{{ route('tabela.listagem') }}"> <i class="menu-icon fa fa-table"></i>Tabelas</a>
                     </li>
                     <li class="{{ request()->routeIs('banco.importar.listagem') ? 'active' : '' }}">
-                        <a href="{{ route('banco.importar.listagem') }}"> <i class="menu-icon fa fa-file-excel-o"></i>Importar</a>
+                        <a href="{{ route('banco.importar.listagem') }}"> <i
+                                class="menu-icon fa fa-file-excel-o"></i>Importar</a>
                     </li>
                     <li class="{{ request()->routeIs('consultor.listagem') ? 'active' : '' }}">
-                        <a href="{{ route('consultor.listagem') }}"> <i class="menu-icon fa fa-users"></i>Meus consultores</a>
+                        <a href="{{ route('consultor.listagem') }}"> <i class="menu-icon fa fa-users"></i>Meus
+                            consultores</a>
                     </li>
-                    <li class="{{ request()->routeIs('promotor.listagem') || request()->routeIs('promotor.cadastro')  ? 'active' : '' }}">
-                        <a href="{{ route('promotor.listagem') }}"> <i class="menu-icon fa fa-users"></i>Meus promotores</a>
+                    <li
+                        class="{{ request()->routeIs('promotor.listagem') || request()->routeIs('promotor.cadastro') ? 'active' : '' }}">
+                        <a href="{{ route('promotor.listagem') }}"> <i class="menu-icon fa fa-users"></i>Meus
+                            promotores</a>
                     </li>
-                    <li class="{{ request()->routeIs('produto.listagem') || request()->routeIs('produto.cadastro')  ? 'active' : '' }}">
+                    <li
+                        class="{{ request()->routeIs('produto.listagem') || request()->routeIs('produto.cadastro') ? 'active' : '' }}">
                         <a href="{{ route('produto.listagem') }}"> <i class="menu-icon fa fa-cubes"></i>Produtos</a>
                     </li>
-                    <li class="{{ request()->routeIs('parametrizacao') || request()->routeIs('produto.cadastro')  ? 'active' : '' }}">
+                    <li
+                        class="{{ request()->routeIs('parametrizacao') || request()->routeIs('produto.cadastro') ? 'active' : '' }}">
                         <a href="{{ route('parametrizacao') }}"> <i class="menu-icon fa fa-gear"></i>Parametrização</a>
                     </li>
                     {{-- <li class="{{ request()->routeIs('view.excel') || request()->routeIs('view.excel')  ? 'active' : '' }}">
@@ -112,13 +122,13 @@
                                 <span class="count bg-danger">{{ count($notificacoes) }}</span>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="notification">
-                                @if(count($notificacoes) > 1)
+                                @if (count($notificacoes) > 1)
                                 <p class="red">Você tem {{ count($notificacoes) }} notificações</p>
                                 @else
                                 <p class="red">Você tem {{ count($notificacoes) }} notificação</p>
                                 @endif
 
-                                @foreach($notificacoes as $notificacao)
+                                @foreach ($notificacoes as $notificacao)
                                 <a class="dropdown-item media" href="#">
                                     <i class="fa fa-minus"></i>
                                     <p>{{ $notificacao }}</p>
@@ -140,7 +150,8 @@
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="{{ route('minha.conta') }}"><i class="fa fa-user"></i> Minha conta</a>
+                            <a class="nav-link" href="{{ route('minha.conta') }}"><i class="fa fa-user"></i> Minha
+                                conta</a>
 
                             {{-- <a class="nav-link" href="#"><i class="fa fa-bell"></i> Notificações <span
                                     class="count">13</span></a>
@@ -212,10 +223,6 @@
                 normalizeFunction: 'polynomial'
             });
         })(jQuery);
-
-
-
-
     </script>
 
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
@@ -234,14 +241,12 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <script>
-
-    </script>
+    <script></script>
 
     <script>
         document.getElementById('metaDia').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é número
-            value = (value/100).toFixed(2) + '';
+            value = (value / 100).toFixed(2) + '';
             value = value.replace(".", ",");
             value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
             e.target.value = value;
@@ -249,7 +254,7 @@
 
         document.getElementById('mediaProducaoDiaria').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é número
-            value = (value/100).toFixed(2) + '';
+            value = (value / 100).toFixed(2) + '';
             value = value.replace(".", ",");
             value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
             e.target.value = value;
@@ -257,7 +262,7 @@
 
         document.getElementById('meta').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é número
-            value = (value/100).toFixed(2) + '';
+            value = (value / 100).toFixed(2) + '';
             value = value.replace(".", ",");
             value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
             e.target.value = value;
@@ -266,10 +271,10 @@
 
     <script>
         $(document).ready(function() {
-    $('.js-example-basic-multiple').select2();
-});
+            $('.js-example-basic-multiple').select2();
+        });
     </script>
-
+    @stack('scripts')
 </body>
 
 </html>

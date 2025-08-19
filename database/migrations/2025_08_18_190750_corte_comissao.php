@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tabela', function (Blueprint $table) {
+        Schema::create('corte_comissao', function (Blueprint $table) {
             $table->id();
-            $table->string('descricao');
-            $table->foreignId('banco_id');
-            $table->integer('status')->default(1);
+            $table->foreignId('tabela_id');
+            $table->string('comissao');
+            $table->string('valorMinimo');
+            $table->string('valorMaximo');
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tabela');
+        Schema::dropIfExists('corte_comissao');
     }
 };
