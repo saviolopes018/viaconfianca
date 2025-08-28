@@ -31,9 +31,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
     //Banco
-    Route::get('/banco/listagem', [BancoController::class, 'listagem'])->name('banco.listagem');
-    Route::get('/banco/cadastro', [BancoController::class, 'cadastro'])->name('banco.cadastro');
-    Route::post('/banco/inserir', [BancoController::class, 'inserirBanco'])->name('banco.inserir');
+    Route::get('/banco/listagem', [BancoController::class, 'listagem'])->name('banco.listagem')->middleware(['checkProfile:admin']);
+    Route::get('/banco/cadastro', [BancoController::class, 'cadastro'])->name('banco.cadastro')->middleware(['checkProfile:admin']);
+    Route::post('/banco/inserir', [BancoController::class, 'inserirBanco'])->name('banco.inserir')->middleware(['checkProfile:admin']);
 
     // Banco - Planilha
     Route::get('/banco/planilha/listagem', [PlanilhaController::class, 'listagem'])->name('banco.planilha.listagem');

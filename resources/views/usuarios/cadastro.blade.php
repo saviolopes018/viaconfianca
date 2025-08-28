@@ -6,7 +6,7 @@
     </div>
     <div class="col-md-12" style="margin-bottom: 10px;">
         <div class="d-flex justify-content-end">
-            <a href="{{ route('tabela.listagem') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i>&nbsp; Voltar</a>
+            <a href="{{ route('usuario.listagem') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i>&nbsp; Voltar</a>
         </div>
     </div>
     <div class="col-lg-12">
@@ -46,9 +46,9 @@
                                 <label for="perfil" class="form-control-label">Perfis</label>
                                 @foreach ($perfis as $perfil)
                                     <div class="col-md-12" style="margin-left: 5px;">
-                                        <div class="checkbox">
-                                            <label for="checkbox" class="form-check-label">
-                                                <input type="checkbox" id="checkbox" name="perfis[]"
+                                        <div class="radio">
+                                            <label for="radio" class="form-check-label">
+                                                <input type="radio" id="radio" name="perfil_id"
                                                     value="{{ $perfil->id }}"
                                                     class="form-check-input">{{ $perfil->descricao }}
                                             </label>

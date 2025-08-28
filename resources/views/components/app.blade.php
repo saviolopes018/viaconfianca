@@ -61,6 +61,7 @@
                     {{-- <li class="{{ request()->routeIs('usuario.listagem') ? 'active' : '' }}">
                         <a href="{{ route('usuario.listagem') }}"> <i class="menu-icon fa fa-users"></i>Usuários </a>
                     </li> --}}
+                    @if(Auth::user()->perfil_id == 1)
                     <li
                         class="menu-item-has-children dropdown
                     {{ request()->routeIs('usuario.listagem') ? 'active' : '' }}">
@@ -70,9 +71,12 @@
                             <li><i class="fa fa-plus"></i><a href="{{ route('usuario.listagem') }}">Listagem</a></li>
                         </ul>
                     </li>
+                    @endif
+                    @if(Auth::user()->perfil_id == 1)
                     <li class="{{ request()->routeIs('banco.listagem') ? 'active' : '' }}">
                         <a href="{{ route('banco.listagem') }}"> <i class="menu-icon fa fa-bank"></i>Banco</a>
                     </li>
+                    @endif
                     <li class="{{ request()->routeIs('tabela.listagem') ? 'active' : '' }}">
                         <a href="{{ route('tabela.listagem') }}"> <i class="menu-icon fa fa-table"></i>Tabelas</a>
                     </li>

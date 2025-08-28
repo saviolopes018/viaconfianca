@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -22,7 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'status',
-        'perfis'
+        'perfil_id'
     ];
 
     /**
@@ -45,7 +46,13 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'perfis' => 'array',
         ];
+    }
+
+    public function getUsuarios() {
+        return DB::table('users')
+            ->join('perfil', 'perfil.id','=','users.perfil_id')
+            ->select('users.*', 'perfil.descricao as perfilDescricao')
+            ->get();
     }
 }

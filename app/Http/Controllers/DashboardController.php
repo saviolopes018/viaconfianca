@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use App\Models\Planilha;
 use App\Models\Parametrizacao;
 use App\Models\CorteComissao;
+use App\Models\Promotor;
+use App\Models\Produto;
 
 class DashboardController extends Controller
 {
@@ -17,10 +19,35 @@ class DashboardController extends Controller
         $valorComissoesPagas = $planilha->obterSomaBaseCalculoComissao($corteComissao);
         $quantidadePropostasPagas = $planilha->obterQuantidadePropostasPaga();
         $parametrizacao = Parametrizacao::find(1);
+
+        $hoje = Carbon::today('America/Sao_Paulo');
+
+        $aniversariantes = Promotor::whereMonth('dataNascimento', $hoje->month)
+                               ->whereDay('dataNascimento', $hoje->day)
+                               ->get();
+
+        $produtos = Produto::where('descricao', 'fgts')->get();
+        $produtoFgts;
+
+        foreach($produtos as $produto){
+            if($produto->descricao == "FGTS") {
+                $data = Carbon::today('America/Sao_Paulo');
+                $dia = $data->format('d');
+                if($dia == 20){
+                    $produtoFgts = true;
+                }else {
+                    $produtoFgts = false;
+                }
+            }
+        }
+        // dd($produtoFgts);
+
         return view('dashboard', [
             'valorComissoesPagas' => $valorComissoesPagas,
             'quantidadePropostasPagas' => $quantidadePropostasPagas,
-            'parametrizacao' => $parametrizacao
+            'parametrizacao' => $parametrizacao,
+            'aniversariantes' => $aniversariantes,
+            'produtoFgts' => $produtoFgts
         ]);
     }
 

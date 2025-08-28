@@ -42,6 +42,7 @@
                                 <tr>
                                     <th>Usuário</th>
                                     <th>Email</th>
+                                    <th>Perfil</th>
                                     <th>Status</th>
                                     <th>Ações</th>
                                 </tr>
@@ -51,6 +52,7 @@
                                     <tr>
                                         <td>{{ $usuario->name }}</td>
                                         <td>{{ $usuario->email }}</td>
+                                        <td>{{ $usuario->perfilDescricao }}</td>
                                         <td>
                                             @if($usuario->status == 1)
                                                 <span class="badge badge-success">{{ \App\Models\Utils::getLabelAtivoPorCodigo($usuario->status) }}</span>

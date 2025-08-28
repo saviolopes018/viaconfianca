@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('status')->default(1);
-            $table->text('perfis')->nullable();
+            $table->foreignId('perfil_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

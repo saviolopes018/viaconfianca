@@ -11,8 +11,8 @@ use Illuminate\Support\Str;
 
 class UsuarioController extends Controller
 {
-    public function listagem() {
-        $usuarios = User::get();
+    public function listagem(User $user) {
+        $usuarios = $user->getUsuarios();
         return view('usuarios.listagem', ['usuarios' => $usuarios]);
     }
 
@@ -22,6 +22,7 @@ class UsuarioController extends Controller
     }
 
     public function inserirUsuario(Request $request) {
+        dd($request->all());
         $user = User::create([
             'name' => $request->nome,
             'email' => $request->email,
