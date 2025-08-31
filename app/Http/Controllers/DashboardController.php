@@ -27,7 +27,7 @@ class DashboardController extends Controller
                                ->get();
 
         $produtos = Produto::where('descricao', 'fgts')->get();
-        $produtoFgts;
+        $produtoFgts = false;
 
         foreach($produtos as $produto){
             if($produto->descricao == "FGTS") {
@@ -35,12 +35,9 @@ class DashboardController extends Controller
                 $dia = $data->format('d');
                 if($dia == 20){
                     $produtoFgts = true;
-                }else {
-                    $produtoFgts = false;
                 }
             }
         }
-        // dd($produtoFgts);
 
         return view('dashboard', [
             'valorComissoesPagas' => $valorComissoesPagas,
